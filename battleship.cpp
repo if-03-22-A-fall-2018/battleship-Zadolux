@@ -11,5 +11,52 @@
  *-----------------------------------------------------------------------------
 */
 #include <stdio.h>
-
 #include "battleship.h"
+
+CellContent my[FIELDSIZE][FIELDSIZE];
+CellContent op[FIELDSIZE][FIELDSIZE];
+CellContent guess[FIELDSIZE][FIELDSIZE];
+
+void load_game()
+{
+    FILE* fd_my = fopen("battleship.my", "r");
+    FILE* fd_op = fopen("battleship.op", "r");
+
+    for (int i = 0; i < FIELDSIZE; i++)
+    {
+        for (int j = 0; j < FIELDSIZE; j++)
+        {
+            fread(&op[i][j], sizeof(CellContent), 1, fd_op);
+            fread(&my[i][j], sizeof(CellContent), 1, fd_my);
+            guess[i][j] = Unknown;
+        }
+    }
+    
+    fclose(fd_my);
+    fclose(fd_op);
+}
+
+CellContent get_shot(int row, int col)
+{
+    if((col >= 0 && col < FIELDSIZE) && (row >= 0 && row < FIELDSIZE))
+    {
+        return my[row][col];
+    }
+    
+    return OutOfRange;
+}
+
+bool shoot(int row, int col)
+{
+    return false;
+}
+
+CellContent get_my_guess(int row, int col)
+{
+    if((col >= 0 && col < FIELDSIZE) && (row >= 0 && row < FIELDSIZE))
+    {
+        return guess[row][col];
+    }
+    
+    return OutOfRange;
+}
