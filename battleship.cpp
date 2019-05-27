@@ -50,13 +50,18 @@ bool shoot(int row, int col)
 {
     if((col >= 0 && col < FIELDSIZE) && (row >= 0 && row < FIELDSIZE))
     {
-        guess[row][col] = Water;
-
         if(op[row][col] == Boat)
         {
-            guess[row][col] = Boat;
+            for(int i = row - 1; i <= row + 1; i++)
+            {
+                for(int j = col - 1; j <= col + 1; j++)
+                {
+                    guess[i][j] = Water;
+                }
+            }
         }
-
+        
+        guess[row][col] = op[row][col];
         return true;
     }
     return false;
